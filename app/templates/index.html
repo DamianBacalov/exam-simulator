@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div id="content" class="flex">
+
+    <h1>Available Exams</h1>
+    <br class="clear">
+    <div id="content-main">
+        <div class="module" id="changelist">
+            <div class="changelist-form-container">
+
+                <div class="results">
+                    <table id="result_list">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="sortable column-exam">
+                                    <div class="text">Exam</div>
+                                    <div class="clear"></div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for exam in exam_list %}
+                            <tr>
+                                <th class="field-index nowrap">
+                                    <a href="{% url 'exams:start' exam.id %}">{{ exam.name }}</a>
+                                </th>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  if user.is_authenticated  -->
+    <h1>Latest Tests</h1>
+    <br class="clear">
+    <div id="content-main">
+        <div class="module" id="changelist">
+            <div class="changelist-form-container">
+
+                <div class="results">
+                    <table id="result_list">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="sortable column-user">
+                                    <div class="text">User</div>
+                                    <div class="clear"></div>
+                                </th>
+                                <th scope="col" class="sortable column-exam">
+                                    <div class="text">Exam</div>
+                                    <div class="clear"></div>
+                                </th>
+                                <th scope="col" class="sortable column-date">
+                                    <div class="text">Date</div>
+                                    <div class="clear"></div>
+                                </th>
+                                <th scope="col" class="sortable column-wrong">
+                                    <div class="text">Wrong answers</div>
+                                    <div class="clear"></div>
+                                </th>
+                                <th scope="col" class="sortable column-review">
+                                    <div class="text">Action</div>
+                                    <div class="clear"></div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for test in test_list %}
+                            <tr>
+                                <td class="field-index nowrap">
+                                    {{ test.user }}
+                                </td>
+                                <td class="field-index nowrap">
+                                    {{ test.exam.name }}
+                                </td>
+                                <td class="field-index nowrap">
+                                    {{ test.start_time }}
+                                </td>
+                                <td class="field-index nowrap center">
+                                    {% if test.completed %}
+                                        {{ test.wrong_anwers }}
+                                    {% endif %}
+                                </td>
+                                <td class="field-index nowrap">
+                                    <a href="{% url 'exams:test' test.uid %}">
+                                        {% if test.completed %}
+                                            Review test
+                                        {% else %}
+                                            Continue
+                                        {% endif %}
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  endif  -->
+    <br class="clear">
+</div>
+{% endblock %}

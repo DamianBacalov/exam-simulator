@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div id="content" class="flex">
+
+    <h1>{{exam}}</h1>
+    <h2>Questions: {{count}}</h2>
+    <h2>User: {{test.user}}</h2>
+    <h2>Date: {{test.start_time}}</h2>
+    <br class="clear">
+    <div id="content-main">
+        <div class="module" id="changelist">
+            <div class="changelist-form-container">
+
+                {% if test.completed %}
+                    <!--  if can_review or user.is_authenticated  -->
+                <div class="results">
+                    <table id="result_list">
+                    <thead>
+                    <tr>
+                    <th scope="col"  class="sortable column-index">
+                        <div class="text">#</div>
+                        <div class="clear"></div>
+                    </th>
+                    <th scope="col"  class="sortable column-question">
+                        <div class="text">Question</div>
+                        <div class="clear"></div>
+                    </th>
+                    <th scope="col"  class="sortable column-is_correct">
+                        <div class="text">Is correct?</div>
+                        <div class="clear"></div>
+                    </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for a in answers %}                
+                        <tr>
+                            <th class="field-index nowrap">
+                                {{ forloop.counter }}</a>
+                            </th>
+                            <th class="field-question nowrap">
+                                <a href="{% url 'exams:questions' test.uid forloop.counter %}">{{a.question.question_text|slice:"0:100"}}</a>
+                            </th>
+                            <td class="field-completed">
+                                {% if a.is_correct %}
+                                <img src="{% static 'admin/img/icon-yes.svg' %}" alt="True">
+                                {% else %}
+                                <img src="{% static 'admin/img/icon-no.svg' %}" alt="False">
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </tbody>
+                    </table>
+                    </div>
+                <!--  else 
+                    <h2>El exámen ha finalizado.</h2>
+                 endif  -->
+            {% else %}
+                <form method="POST" class="post-form">{% csrf_token %}
+                    <div class="submit-row">
+                        <input type="submit" value="Start Test" class="default" name="_save">
+                    </div>
+                </form>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+
+
+    <br class="clear">
+</div>
+{% endblock %}

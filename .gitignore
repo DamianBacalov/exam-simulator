@@ -1,0 +1,10 @@
+.idea/
+.idea/workspace.xml
+__pycache__/
+app/__pycache__/
+config_prod.py
+.vscode/
+db.sqlite3
+staticfiles/
+questions.txt
+images/

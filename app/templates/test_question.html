@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!--link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}"-->
+
+{% block content %}
+<div id="content" class="flex">
+    <h2>{{exam}}</h2>
+    <h3 >Question #{{question_index}} de {{questions_count}}</h3>
+    <br class="clear">
+    <div id="content-main">
+        <div class="module" id="changelist">
+            <div class="changelist-form-container">
+
+                <h3>{{question.question_text|linebreaks}}</h3>
+                {% if question.question_image %}
+                <img src="/images/{{question.question_image}}">
+                {% endif %}
+                <form method="POST" class="post-form">{% csrf_token %}
+                    <ul class="nobullet">
+                        {% for op in options %}
+                        <li>
+                            {% if multiple %}
+                            <input type="checkbox" name="choice []" value="{{ op.id }}" {% if op.id in selected_answers %}checked{% endif %} />
+                            <span class="{% if test.completed and op.is_correct %}correct{% endif %}">
+                                <label for="choice">{{ op.answer_text }}</label>
+                            </span>
+                            {% else %}
+                            <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ op.id }}" {% if op.id in selected_answers %}checked{% endif %} />
+                            <span class="{% if test.completed and op.is_correct %}correct{% endif %}">
+                                <label for="choice{{ forloop.counter }}">{{ op.answer_text }}</label>
+                            </span>
+                            {% endif %}
+                        </span></li>
+                        {% endfor %}
+                    </ul>
+                    {% if test.completed %}
+                    <a href="{% url 'exams:test' test.uid %}">Return to Test Result</a>
+                    {% else %}
+                    <div class="submit-row">
+                        <input type="submit" value="Continue" class="default" name="_save">
+                    </div>
+                    {% endif %}
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <br class="clear">
+</div>
+{% endblock %}

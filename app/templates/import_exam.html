@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="content" class="flex">
+
+    <h2>Import Exam</h2>
+    <br class="clear">
+    <div id="content-main">
+        <div class="module" id="changelist">
+            <div class="changelist-form-container">
+                <form enctype="multipart/form-data" method="POST" class="post-form">{% csrf_token %}
+                    <div class="form-row field-exam_name">
+                        <div>
+                            <label class="required" for="id_exam_name">Exam name:</label>
+                            <input type="text" name="exam_name" class="vTextField" maxlength="64" required id="id_exam_name">
+                        </div>
+                    </div>
+                    <div class="form-row field-exam_file">
+                        <div>
+                            <label class="required" for="id_exam_file">Text file:</label>
+                            <input type="file" name="exam_file" accept=".txt" id="id_exam_file">
+                        </div>
+                    </div>
+                    <div class="submit-row">
+                        <input type="submit" value="Import" class="default" name="_save">
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <br class="clear">
+</div>
+{% endblock %}
