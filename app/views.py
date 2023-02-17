@@ -107,7 +107,9 @@ def test_questions(request, pk, qid):
             if multiple:
                 post_answer = request.POST.getlist('choice []')
             else:
-                post_answer = [request.POST['choice']]
+                post_answer = [request.POST.get('choice')]
+            if post_answer == [None]:
+                return redirect('exams:questions', pk=test.uid, qid=qid)
             user_answer = [int(a) for a in post_answer]
             test_answer.selected_answers = json.dumps(user_answer)
             test_answer.is_correct = is_correct_answer(answers, user_answer)
