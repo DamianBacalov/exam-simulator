@@ -2,6 +2,7 @@
 .idea/workspace.xml
 __pycache__/
 app/__pycache__/
+app/migrations/
 config_prod.py
 .vscode/
 db.sqlite3
